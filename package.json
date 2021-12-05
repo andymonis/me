@@ -1,28 +1,29 @@
 {
-  "name": "hello_world",
-  "version": "1.0.3",
-  "description": "A *very* simple repo",
-  "main": "index.js",
-  "app": {
-    "manifest": {
-      "service_worker": "network_or_cache"
+    "name": "hello_world",
+    "version": "1.0.4",
+    "description": "A *very* simple repo",
+    "main": "index.js",
+    "app": {
+        "manifest": {
+            "service_worker": "network_or_cache"
+        },
+        "frameworks": [
+            "framework7"
+        ]
     },
-    "frameworks": [
-      "framework7"
-    ]
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "tag": "git add . && git commit -m \"Checking in latest\" && npm version patch && git add . && git commit -m \"Checking in version patch\" && git push"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/andymonis/hello_world.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/andymonis/hello_world/issues"
-  },
-  "homepage": "https://github.com/andymonis/hello_world#readme"
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "commit": "git add . && git commit -m 'Checking in latest' && git push",
+        "tag": "npm --no-git-tag-version version patch && npm run commit"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/andymonis/hello_world.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/andymonis/hello_world/issues"
+    },
+    "homepage": "https://github.com/andymonis/hello_world#readme"
 }
