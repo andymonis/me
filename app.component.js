@@ -11,7 +11,7 @@ export default (props, { $h, $f7, $store, $on, $f7router }) => {
     let app = $store.getters.app || {};
 
     // Register Events handlers ONLY ONCE
-    if(!initialised){
+    if (!initialised) {
         console.log("Init")
 
         Events.on("APP_EXISTS", (data) => {
@@ -19,6 +19,12 @@ export default (props, { $h, $f7, $store, $on, $f7router }) => {
             if (data.exists) {
                 $f7.toast.create({
                     text: `AppId '${data.app_id}' is currently used, please select another id`,
+                    closeTimeout: 2000,
+                    position: 'top',
+                }).open()
+            } else {
+                $f7.toast.create({
+                    text: `AppId '${data.app_id}' is ok.`,
                     closeTimeout: 2000,
                     position: 'top',
                 }).open()
@@ -30,7 +36,7 @@ export default (props, { $h, $f7, $store, $on, $f7router }) => {
     // Defaults to blank (for creating a new app)
     let value = app.value || {};
 
-    
+
 
     $on('pageBeforeIn', (e, page) => {
         let el = $$(".app-setting-secure");
@@ -43,11 +49,12 @@ export default (props, { $h, $f7, $store, $on, $f7router }) => {
     });
 
     const on_apps_update = (evt) => {
-        console.log("updated")
+
         let action = "create_app"
         if (value.id) {
             action = "update_app"
         }
+        console.log(`on_apps_updated: ${action}`)
 
         // Get the form input values
         let id = $$(".app-id input");
