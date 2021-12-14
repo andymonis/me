@@ -1,6 +1,6 @@
 {
     "name": "hello_world",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "description": "A *very* simple repo",
     "main": "index.js",
     "app": {
