@@ -79,6 +79,12 @@ export default (props, { $h, $f7, $store, $on, $f7router }) => {
     });
 
     const on_apps_update = (evt) => {
+        function parseBoolean(val) {
+            if (val.toLowerCase() === "true" || val.toLowerCase() === "false") {
+                return JSON.parse(val.toLowerCase());
+            }
+        }
+
 
         let action = "create_app"
         if (value.id) {
@@ -98,7 +104,7 @@ export default (props, { $h, $f7, $store, $on, $f7router }) => {
             id: id[0].value,
             name: name[0].value,
             git_url: git_url[0].value,
-            secure: secure[0].value,
+            secure: parseBoolean(secure[0].value),
             description: description[0].value
         });
         // Dispatch change to server
