@@ -3,13 +3,14 @@ var $$ = Dom7;
 import Model from "./model.js";
 
 import Routes from "./routes.js";
-
+import V3Store from "/vee3/vee_store.js";
 
 /**
  * Framework7 Demonstration
  */
 export default class Main {
     constructor(config) {
+        V3Store.instanceId(config.app.instancedid);
         // The App, the one you are running
         this.app = config.app;
         // Store reference to the Api

@@ -3,3 +3,15 @@
 .profile {
     margin: 0px;
 }
+
+.false {
+	background-color: #ff3b30;
+}
+
+.true {
+	background-color: #4cd964;
+}
+
+.null {
+	background-color: #cccccc;
+}

@@ -8,7 +8,33 @@ let initialised = false;
  *
  */
 export default (props, { $h, $f7, $store, $on, $f7router }) => {
+
     let app = $store.getters.app || {};
+    let logs = $store.getters.logs || [];
+    let latest = {timestamp:0,cloned:null,built:null,deployed:null,cleaned:null};
+    logs.onUpdated((arr)=>{
+        arr.forEach((c,i,a)=>{
+            if(c.timestamp>latest.timestamp){
+                latest.timestamp = c.timestamp;
+                latest.when = new Date(c.timestamp).getFullYear() + "-" + (new Date(c.timestamp).getMonth() + 1) + "/" + new Date(c.timestamp).getDate() + " " + new Date(c.timestamp).getHours() + ":" + new Date(c.timestamp).getMinutes() + ":" + new Date(c.timestamp).getSeconds();
+                latest.cloned = c.cloned;
+                latest.built = c.built;
+                latest.deployed = c.deployed;
+                latest.cleaned = c.cleaned;
+            }
+        })
+    });
+
+    const get_logs = () => {
+        // Check if the page is displayed (otherwise stop i.e. don't set next timeout)
+        let el = $$("#app-viewer");
+        if(el.length > 0){
+            // Dispatch Event to get logs
+            $store.dispatch("logs", app.value);
+            // Set timer again 
+            setTimeout(get_logs, 5000);
+        }
+    }
 
     // Register Events handlers ONLY ONCE
     if (!initialised) {
@@ -45,7 +71,11 @@ export default (props, { $h, $f7, $store, $on, $f7router }) => {
         } else if (value.secure === false) {
             $$(".app-setting-secure select option[value=false]")[0].setAttribute("selected", "")
         }
+    });
 
+    $on('pageAfterIn', (e, page) => { 
+        // Get the latest logs  
+        get_logs();
     });
 
     const on_apps_update = (evt) => {
@@ -91,8 +121,12 @@ export default (props, { $h, $f7, $store, $on, $f7router }) => {
         $store.dispatch("APP_EXISTS", { id: id });
     }
 
+    const on_apps_deploy_status = async(evt) => {
+        $store.dispatch("logs", app.value);
+    }
+
     return () => $h `
-    <div class="page" name="app">
+    <div id="app-viewer" class="page" name="app">
         <!-- Top Navbar -->
         <div class="navbar">
             <div class="navbar-bg"></div>
@@ -175,6 +209,16 @@ export default (props, { $h, $f7, $store, $on, $f7router }) => {
                 <!--<div class="item-inner">
                     <button @click=${(evt) => on_apps_deploy(evt)} class="button color-red button-large button-round button-fill">Deploy</button>
                 </div>-->
+                <div>
+                    <!-- <button @click=${(evt) => on_apps_deploy_status(evt)} class="button color-red button-large button-round button-fill">refresh</button> -->
+                    <div class="block block-strong" style="display:flex;justify-content: space-around;">
+                        <div style="display:flex;flex-direction:column;border: 1px solid #007aff;border-radius: 10px;padding: 5px;margin: 5px;"><span>time</span><span class="">${latest.when}</span></div>
+                        <div class="${JSON.stringify(latest.cloned)}" style="display:flex;flex-direction:column;border: 1px solid #007aff;border-radius: 10px;padding: 5px;margin: 5px;"><span>clone</span><span>${JSON.stringify(latest.cloned)}</span></div>
+                        <div class="${JSON.stringify(latest.built)}" style="display:flex;flex-direction:column;border: 1px solid #007aff;border-radius: 10px;padding: 5px;margin: 5px;"><span>built</span><span>${JSON.stringify(latest.built)}</span></div>
+                        <div class="${JSON.stringify(latest.deployed)}" style="display:flex;flex-direction:column;border: 1px solid #007aff;border-radius: 10px;padding: 5px;margin: 5px;"><span>deploy</span><span>${JSON.stringify(latest.deployed)}</span></div>
+                        <div class="${JSON.stringify(latest.cleaned)}" style="display:flex;flex-direction:column;border: 1px solid #007aff;border-radius: 10px;padding: 5px;margin: 5px;"><span>ready</span><span>${JSON.stringify(latest.cleaned)}</span></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

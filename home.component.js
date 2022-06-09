@@ -58,7 +58,7 @@ export default (props, { $h, $store, $f7router }) => {
                 <ul>
                     <li class="item-content">
                         <div class="item-media">
-                            <img src="${profile.value.avatar}" style="width: 40px; height: 40px; border-radius: 50%" />
+                            <img src="${profile.value.avatar}" style="width: 40px; height: 40px; border-radius: 50%;" />
                         </div>
                         <div class="item-inner">
                             <div class="item-title-row">
@@ -100,7 +100,7 @@ export default (props, { $h, $store, $f7router }) => {
             </div>
 
             <!-- GROUPS -->
-            <div class="card">
+            <div class="card" style="display:none;">
                 <div class="card-header">Groups:</div>
                 <div class="card-content">
                     <div class="list media-list no-safe-areas">

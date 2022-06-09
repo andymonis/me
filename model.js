@@ -2,6 +2,7 @@
 var $$ = Dom7;
 
 import Events from "./events.js";
+import V3Store from "/vee3/vee_store.js";
 
 class Model {
     get_store(api) {
@@ -23,6 +24,7 @@ class Model {
                 },
                 apps: [],
                 groups: [],
+                logs: [],
                 last_msg: "",
             },
             getters: {
@@ -40,7 +42,10 @@ class Model {
                 },
                 errors({ state }) {
                     return state.errors;
-                }
+                },
+                logs({ state }) {
+                    return state.logs;
+                },
             },
             actions: {
                 // Page App Setter
@@ -53,13 +58,15 @@ class Model {
                 // handler receives custom data in second argument
                 async get_profile({ state }) {
                     let user = await api.$post("/services/user/profile/get", {});
-
+                    // Create a transparent pixel
+                    let pixel = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII="
+                    // Update the profile
                     state.profile = {
                         id: user.id,
                         nickname: user.nickname,
                         role: user.role,
                         description: user.description,
-                        avatar: user.avatar,
+                        avatar: user.avatar !== "" ? user.avatar : pixel
                     };
                 },
 
@@ -76,6 +83,7 @@ class Model {
                 async signout({ state }, app_details) {
                     // Delete the auth token. Do I need to await this? maybe just do it anyway 
                     let res = api.$post("/secure/deauthorize", {});
+
                     // Redirect to default page
                     window.location.assign(`${window.location.origin}/app/default`);
                 },
@@ -99,12 +107,12 @@ class Model {
                     let result = await api.$post("/services/apps/deploy", app_details);
                     // Refresh Apps List
                     _store.dispatch("get_apps", {})
+                },
+                async logs({state}, app_details){
+                    // let data1 = await V3Store.$shared_get('notes1');
+                    let logs = await V3Store.$private_query(`app_${app_details.id}`);
 
-                    if (result.deployed === true) {
-                        alert("deployed");
-                    } else {
-                        alert("error");
-                    }
+                    state.logs = logs.obj;
                 },
 
                 async APP_EXISTS({ state }, data) {
