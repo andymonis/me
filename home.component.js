@@ -15,6 +15,11 @@ export default (props, { $h, $store, $f7router }) => {
         $f7router.navigate('/app/', { transition: 'f7-push' })
     }
 
+    const on_profile_update = (evt, data) => {
+        // Navigate to the App viewer
+        $f7router.navigate('/profile/', { transition: 'f7-push' })
+    }
+
     const on_apps_new = (evt) => {
         // Set the selected app to be the one just clicked
         $store.state.app = {};
@@ -44,7 +49,7 @@ export default (props, { $h, $store, $f7router }) => {
         <div class="toolbar toolbar-bottom">
             <div class="toolbar-inner">
             <!-- Toolbar links -->
-            <a href="/about/" class="btn_get_profile link">Link 1</a>
+            <a href="/about/" class="btn_get_profile link"></a>
             <a href="#" @click=${(evt) => on_signout(evt)} class="link">Sign out</a>
             </div>
         </div>
@@ -66,6 +71,9 @@ export default (props, { $h, $store, $f7router }) => {
                             </div>
                             <div class="item-subtitle">${profile.value.role}</div>
                             <div class="item-text">${profile.value.description}</div>
+                        </div>
+                        <div>
+                            <a @click=${(evt) => on_profile_update(evt)} class="button">update</a>
                         </div>
                     </li>
                 </ul>

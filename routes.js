@@ -1,12 +1,12 @@
 import AboutPage from './about.component.js';
 import AppPage from './app.component.js';
 import HomePage from './home.component.js';
+import ProfilePage from './profile.component.js';
 
 let routes = [
   {
     path: "/about/",
     component: AboutPage,
-    // url: `${this.app.name}/about.html`,
     options: {
       transition: "f7-push",
     },
@@ -14,7 +14,13 @@ let routes = [
   {
     path: "/app/",
     component: AppPage,
-    // url: `${this.app.name}/app.html`,
+    options: {
+      transition: "f7-push",
+    },
+  },
+  {
+    path: "/profile/",
+    component: ProfilePage,
     options: {
       transition: "f7-push",
     },
@@ -22,7 +28,6 @@ let routes = [
   {
     path: "/",
     component: HomePage,
-    // url: "index.html",
     options: {
       transition: "f7-push",
     },

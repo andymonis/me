@@ -16,7 +16,7 @@ export default (props, { $h, $f7, $store, $on, $f7router }) => {
         arr.forEach((c,i,a)=>{
             if(c.timestamp>latest.timestamp){
                 latest.timestamp = c.timestamp;
-                latest.when = new Date(c.timestamp).getFullYear() + "-" + (new Date(c.timestamp).getMonth() + 1) + "/" + new Date(c.timestamp).getDate() + " " + new Date(c.timestamp).getHours() + ":" + new Date(c.timestamp).getMinutes() + ":" + new Date(c.timestamp).getSeconds();
+                latest.when = new Date(c.timestamp).getFullYear().toString().substring(2) + "/" + (new Date(c.timestamp).getMonth() + 1) + "/" + new Date(c.timestamp).getDate() + " " + new Date(c.timestamp).getHours() + ":" + new Date(c.timestamp).getMinutes() + ":" + new Date(c.timestamp).getSeconds();
                 latest.cloned = c.cloned;
                 latest.built = c.built;
                 latest.deployed = c.deployed;
@@ -138,11 +138,11 @@ export default (props, { $h, $f7, $store, $on, $f7router }) => {
             <div class="navbar-bg"></div>
             <div class="navbar-inner">
             <div class="left"><a href="#" class="link back"><i class="icon icon-back"></i><span class="if-not-md">Back</span></a></div>
-                <div class="title">${value.name}</div>
+                <div class="title">${value.id}</div>
             </div>
         </div>
         <div class="page-content app-settings">
-            <div class="block-title">App Settings</div>
+            <div class="block-title">Core Settings</div>
             <div class="list inline-labels no-hairlines-md">
                 <ul>
                     <!-- ID -->
@@ -218,11 +218,11 @@ export default (props, { $h, $f7, $store, $on, $f7router }) => {
                 <div>
                     <!-- <button @click=${(evt) => on_apps_deploy_status(evt)} class="button color-red button-large button-round button-fill">refresh</button> -->
                     <div class="block block-strong" style="display:flex;justify-content: space-around;">
-                        <div style="display:flex;flex-direction:column;border: 1px solid #007aff;border-radius: 10px;padding: 5px;margin: 5px;"><span>time</span><span class="">${latest.when}</span></div>
-                        <div class="${JSON.stringify(latest.cloned)}" style="display:flex;flex-direction:column;border: 1px solid #007aff;border-radius: 10px;padding: 5px;margin: 5px;"><span>clone</span><span>${JSON.stringify(latest.cloned)}</span></div>
-                        <div class="${JSON.stringify(latest.built)}" style="display:flex;flex-direction:column;border: 1px solid #007aff;border-radius: 10px;padding: 5px;margin: 5px;"><span>built</span><span>${JSON.stringify(latest.built)}</span></div>
-                        <div class="${JSON.stringify(latest.deployed)}" style="display:flex;flex-direction:column;border: 1px solid #007aff;border-radius: 10px;padding: 5px;margin: 5px;"><span>deploy</span><span>${JSON.stringify(latest.deployed)}</span></div>
-                        <div class="${JSON.stringify(latest.cleaned)}" style="display:flex;flex-direction:column;border: 1px solid #007aff;border-radius: 10px;padding: 5px;margin: 5px;"><span>ready</span><span>${JSON.stringify(latest.cleaned)}</span></div>
+                        <div class="deploy-container"><span>time</span><span class="datetime">${latest.when}</span></div>
+                        <div class="deploy-container"><span>clone</span><span class="blob ${JSON.stringify(latest.cloned)}">${JSON.stringify(latest.cloned)}</span></div>
+                        <div class="deploy-container"><span>built</span><span class="blob ${JSON.stringify(latest.built)}">${JSON.stringify(latest.built)}</span></div>
+                        <div class="deploy-container"><span>deploy</span><span class="blob ${JSON.stringify(latest.deployed)}">${JSON.stringify(latest.deployed)}</span></div>
+                        <div class="deploy-container"><span>ready</span><span class="blob ${JSON.stringify(latest.cleaned)}">${JSON.stringify(latest.cleaned)}</span></div>
                     </div>
                 </div>
             </div>

@@ -61,12 +61,15 @@ class Model {
                     // Create a transparent pixel
                     let pixel = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII="
                     // Update the profile
+                    
                     state.profile = {
+                        activated: new Date(user.activated).toUTCString(),
+                        avatar: user.avatar !== "" ? user.avatar : pixel,
+                        description: user.description,
+                        email: user.email,
                         id: user.id,
                         nickname: user.nickname,
                         role: user.role,
-                        description: user.description,
-                        avatar: user.avatar !== "" ? user.avatar : pixel
                     };
                 },
 
